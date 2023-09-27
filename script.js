@@ -18,6 +18,9 @@ const canvas = document.createElement('canvas');
 canvas.id = 'canvas';
 const context = canvas.getContext('2d');
 
+// Global Constants
+const BRUSH_TIME = 1500; //CODE REVIEW
+
 // Global Variables
 let currentSize = 10;
 let bucketColor = '#FFFFFF';
@@ -76,6 +79,11 @@ function switchToBrush() {
     displayBrushSize();
 }
 
+// CODE REVIEW: Brush time set
+function brushTimeSetTiemout(ms) {
+    setTimeout(switchToBrush, ms);
+}
+
 // Create Canvas
 function createCanvas() {
   canvas.width = window.innerWidth;
@@ -93,7 +101,7 @@ clearCanvasBtn.addEventListener('click', () => {
   drawnArray = [];
   // Active Tool
   activeToolEl.textContent = 'Canvas Cleared';
-  setTimeout(switchToBrush, 1500);
+  brushTimeSetTiemout(BRUSH_TIME);
 });
 
 // Draw what is stored in DrawnArray
@@ -179,7 +187,7 @@ saveStorageBtn.addEventListener('click', () => {
     localStorage.setItem('savedCanvas', JSON.stringify(drawnArray));
     // Active Tool
     activeToolEl.textContent = 'Canvas Saved';
-    setTimeout(switchToBrush, 1500);
+    brushTimeSetTiemout(BRUSH_TIME);
 });
 
 // Load from Local Stroage
@@ -189,7 +197,7 @@ loadStorageBtn.addEventListener('click', () => {
         restoreCanvas(); //Re-Paint the canvas stored
         //Active Tool
         activeToolEl.textContent = 'Canvas Loaded';
-        setTimeout(switchToBrush, 1500);
+        brushTimeSetTiemout(BRUSH_TIME);
     } else {
         activeToolEl.textContent = 'No Canvas Found';
     }
@@ -200,7 +208,7 @@ clearStorageBtn.addEventListener('click', () => {
     localStorage.removeItem('savedCanvas');
     //Active Tool
     activeToolEl.textContent = 'Local Storage Cleared';
-    setTimeout(switchToBrush, 1500);
+    brushTimeSetTiemout(BRUSH_TIME);
 });
 
 // Download Image
@@ -209,7 +217,7 @@ downloadBtn.addEventListener('click', () => {
     downloadBtn.download = 'paint-example.jpeg';
     //Active Tool
     activeToolEl.textContent = 'Image File Saved';
-    setTimeout(switchToBrush, 1500)
+    brushTimeSetTiemout(BRUSH_TIME);
 });
 
 // Event Listener for brush icon
