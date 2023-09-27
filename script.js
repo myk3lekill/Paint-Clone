@@ -51,7 +51,7 @@ brushColorBtn.addEventListener('change', () => {
 bucketColorBtn.addEventListener('change', () => { //Call own event listener's function
     bucketColor = `#${bucketColorBtn.value}`; //Set the bucketcolor as bucketColorBtn.value
     createCanvas(); //Create the canvas to set the bucketcolor
-    restoreCanvas(); //Restore the canvas mantain the canvas when change background color
+    restoreCanvas(); //Restore the canvas (Re-Paint the canvas) and mantain the canvas when change background color
 });
 
 // Eraser
@@ -174,11 +174,43 @@ canvas.addEventListener('mouseup', () => {
   console.log('mouse is unclicked');
 });
 
-// // Save to Local Storage
-// saveStorageBtn.addEventListener('click', () => {
+// Save to Local Storage
+saveStorageBtn.addEventListener('click', () => {
+    localStorage.setItem('savedCanvas', JSON.stringify(drawnArray));
+    // Active Tool
+    activeToolEl.textContent = 'Canvas Saved';
+    setTimeout(switchToBrush, 1500);
+});
 
-//   // Active Tool
-//   activeToolEl.textContent = 'Canvas Saved';
+// Load from Local Stroage
+loadStorageBtn.addEventListener('click', () => {
+    if (localStorage.getItem('savedCanvas')) {
+        drawnArray = JSON.parse(localStorage.savedCanvas);
+        restoreCanvas(); //Re-Paint the canvas stored
+        //Active Tool
+        activeToolEl.textContent = 'Canvas Loaded';
+        setTimeout(switchToBrush, 1500);
+    } else {
+        activeToolEl.textContent = 'No Canvas Found';
+    }
+});
+
+// Clear Local Storage
+clearStorageBtn.addEventListener('click', () => {
+    localStorage.removeItem('savedCanvas');
+    //Active Tool
+    activeToolEl.textContent = 'Local Storage Cleared';
+    setTimeout(switchToBrush, 1500);
+});
+
+// Download Image
+downloadBtn.addEventListener('click', () => {
+    downloadBtn.href = canvas.toDataURL('image/jpeg', 1);
+    downloadBtn.download = 'paint-example.jpeg';
+    //Active Tool
+    activeToolEl.textContent = 'Image File Saved';
+    setTimeout(switchToBrush, 1500)
+});
 
 // Event Listener for brush icon
 brushIcon.addEventListener('click', switchToBrush);
