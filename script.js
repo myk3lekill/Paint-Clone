@@ -13,8 +13,12 @@ const clearStorageBtn = document.getElementById('clear-storage');
 const downloadBtn = document.getElementById('download');
 const { body } = document;
 
-// Global Variables
+// Canvas
+const canvas = document.createElement('canvas');
+canvas.id = 'canvas';
+const context = canvas.getContext('2d');
 
+// Global Variables
 let currentSize = 10;
 let bucketColor = '#FFFFFF';
 let currentColor = '#A51DAB';
@@ -64,10 +68,10 @@ let currentColor = '#A51DAB';
 
 // Create Canvas
 function createCanvas() {
-  // canvas.width = ;
-  // canvas.height = ;
-  // context.fillStyle = ;
-  // context.fillRect();
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight - 50;
+  context.fillStyle = bucketColor;
+  context.fillRect(0, 0, canvas.width, canvas.height);
   body.appendChild(canvas);
 
 }
@@ -162,3 +166,6 @@ canvas.addEventListener('mouseup', () => {
 
 //   // Active Tool
 //   activeToolEl.textContent = 'Canvas Saved';
+
+// On Load
+createCanvas();
